@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patent Forms Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3d8bff;
+            --primary-hover: #2d7bff;
+            --secondary: #6e40c9;
+            --background: #0d0e12;
+            --card-bg: #1d1e24;
+            --card-border: #2d2f3a;
+            --text: #e6e8ec;
+            --text-secondary: #a0a4b0;
+            --success: #38a169;
+            --danger: #e53e3e;
+            --warning: #dd6b20;
+            --accent: #8dcb6c;
+            --shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(61, 139, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(110, 64, 201, 0.05) 0%, transparent 20%);
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjg.woff2) format('woff2');
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(29, 30, 36, 0.8);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--card-border);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .card-header i {
+            font-size: 1.8rem;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 1.05rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(61, 139, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .applicant-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            border: 1px solid var(--card-border);
+        }
+
+        .applicant-number {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .remove-applicant {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .remove-applicant:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            gap: 10px;
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855a;
+        }
+
+        .btn-add {
+            background: var(--secondary);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background: #5d30c9;
+        }
+
+        .btn-reset {
+            background: #3a3d4a;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-reset:hover {
+            background: #2d303a;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .form-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .form-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-option:hover {
+            border-color: var(--primary);
+            background: rgba(61, 139, 255, 0.1);
+        }
+
+        .form-option.selected {
+            border-color: var(--accent);
+            background: rgba(141, 203, 108, 0.1);
+        }
+
+        .form-option input {
+            margin-right: 10px;
+        }
+
+        .form-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.05;
+            font-size: 10rem;
+            z-index: -1;
+            transform: rotate(-20deg);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            
+            .form-selection {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">
+        <i class="fab fa-ethereum"></i>
+    </div>
+    
+    <div class="notification" id="notification">
+        Document generated successfully!
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-file-contract"></i> Patent Forms Generator</h1>
+            <p class="subtitle">Generate Form 2, 3, 5, 9, 18, and 18A with professional formatting</p>
+        </header>
+        
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-edit"></i>
+                <h2 class="card-title">Application Details</h2>
+            </div>
+            
+            <div id="applicant-container">
+                <div class="applicant-section">
+                    <div class="applicant-number">1</div>
+                    <button class="remove-applicant"><i class="fas fa-times"></i> Remove</button>
+                    <div class="form-group">
+                        <label for="applicant-name">Applicant Name</label>
+                        <input type="text" id="applicant-name" placeholder="Enter applicant name">
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-nationality">Nationality</label>
+                        <input type="text" id="applicant-nationality" placeholder="Enter nationality">
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-address">Address</label>
+                        <textarea id="applicant-address" placeholder="Enter full address"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-add" id="add-applicant"><i class="fas fa-plus"></i> Add Another Applicant</button>
+            
+            <div class="form-group">
+                <label for="application-number">Application Number</label>
+                <input type="text" id="application-number" placeholder="Enter application number">
+            </div>
+            
+            <div class="form-group">
+                <label for="filing-date">Filing Date</label>
+                <input type="date" id="filing-date">
+            </div>
+            
+            <div class="form-group">
+                <label for="title">Title of Invention</label>
+                <input type="text" id="title" placeholder="Enter title of invention">
+            </div>
+            
+            <div class="card-header" style="margin-top: 30px;">
+                <i class="fas fa-user-tie"></i>
+                <h2 class="card-title">Agent Details</h2>
+            </div>
+            
+            <div class="form-group">
+                <label for="agent-address">Agent Address</label>
+                <textarea id="agent-address" placeholder="Enter agent's address"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="agent-mobile">Agent Mobile Number</label>
+                <input type="text" id="agent-mobile" placeholder="Enter agent's mobile number">
+            </div>
+            
+            <div class="form-group">
+                <label for="agent-email">Agent Email ID</label>
+                <input type="email" id="agent-email" placeholder="Enter agent's email">
+            </div>
+            
+            <div class="form-group">
+                <label for="agent-name">Agent Name</label>
+                <input type="text" id="agent-name" placeholder="Enter agent's full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="agent-number">Agent Number (IN/PA-)</label>
+                <input type="text" id="agent-number" placeholder="Enter agent number">
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-file-alt"></i>
+                <h2 class="card-title">Select Forms to Generate</h2>
+            </div>
+            
+            <div class="form-selection">
+                <div class="form-option">
+                    <label>
+                        <input type="checkbox" id="form2" value="FORM2">
+                        Form 2 - Complete Specification
+                    </label>
+                </div>
+                <div class="form-option">
+                    <label>
+                        <input type="checkbox" id="form3" value="FORM3">
+                        Form 3 - Section 8 Statement
+                    </label>
+                </div>
+                <div class="form-option">
+                    <label>
+                        <input type="checkbox" id="form5" value="FORM5">
+                        Form 5 - Inventorship Declaration
+                    </label>
+                </div>
+                <div class="form-option">
+                    <label>
+                        <input type="checkbox" id="form9" value="FORM9">
+                        Form 9 - Request for Publication
+                    </label>
+                </div>
+                <div class="form-option">
+                    <label>
+                        <input type="checkbox" id="form18" value="FORM18">
+                        Form 18 - Request for Examination
+                    </label>
+                </div>
+                <div class="form-option">
+                    <label>
+                        <input type="checkbox" id="form18a" value="FORM18A">
+                        Form 18A - Expedited Examination
+                    </label>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-reset" id="reset-btn"><i class="fas fa-redo"></i> Reset Form</button>
+                <button class="btn btn-success" id="generate-btn"><i class="fas fa-file-download"></i> Generate Documents</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date as default filing date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('filing-date').value = today;
+            
+            // Add applicant button
+            document.getElementById('add-applicant').addEventListener('click', addApplicant);
+            
+            // Reset button
+            document.getElementById('reset-btn').addEventListener('click', resetForm);
+            
+            // Generate button
+            document.getElementById('generate-btn').addEventListener('click', generateDocuments);
+            
+            // Add event delegation for remove buttons
+            document.getElementById('applicant-container').addEventListener('click', function(e) {
+                if (e.target.closest('.remove-applicant')) {
+                    removeApplicant(e.target.closest('.remove-applicant'));
+                }
+            });
+            
+            // Form selection styling
+            const formOptions = document.querySelectorAll('.form-option');
+            formOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    const checkbox = this.querySelector('input');
+                    checkbox.checked = !checkbox.checked;
+                    this.classList.toggle('selected', checkbox.checked);
+                });
+            });
+        });
+
+        // Add applicant section
+        function addApplicant() {
+            const container = document.getElementById('applicant-container');
+            const count = container.children.length + 1;
+            
+            const newApplicant = document.createElement('div');
+            newApplicant.className = 'applicant-section';
+            newApplicant.innerHTML = `
+                <div class="applicant-number">${count}</div>
+                <button class="remove-applicant"><i class="fas fa-times"></i> Remove</button>
+                <div class="form-group">
+                    <label>Applicant Name</label>
+                    <input type="text" placeholder="Enter applicant name">
+                </div>
+                <div class="form-group">
+                    <label>Nationality</label>
+                    <input type="text" placeholder="Enter nationality">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea placeholder="Enter full address"></textarea>
+                </div>
+            `;
+            container.appendChild(newApplicant);
+        }
+
+        // Remove applicant section
+        function removeApplicant(button) {
+            const container = document.getElementById('applicant-container');
+            if (container.children.length > 1) {
+                const applicantSection = button.closest('.applicant-section');
+                container.removeChild(applicantSection);
+                
+                // Update numbering
+                const applicants = container.querySelectorAll('.applicant-section');
+                applicants.forEach((app, index) => {
+                    app.querySelector('.applicant-number').textContent = index + 1;
+                });
+            } else {
+                alert("At least one applicant is required.");
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            if (!confirm("Are you sure you want to reset the form? All data will be lost.")) return;
+            
+            // Clear all inputs
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type !== 'button' && input.id !== 'add-applicant') {
+                    input.value = '';
+                }
+            });
+            
+            // Reset applicant sections to one
+            const container = document.getElementById('applicant-container');
+            while (container.children.length > 1) {
+                container.removeChild(container.lastChild);
+            }
+            
+            // Set current date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('filing-date').value = today;
+            
+            // Uncheck all forms
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Update UI
+            const formOptions = document.querySelectorAll('.form-option');
+            formOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+
+        // Format date as DD Month YYYY
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        // Get form data
+        function getFormData() {
+            // Get applicant data
+            const applicants = [];
+            const applicantSections = document.querySelectorAll('.applicant-section');
+            applicantSections.forEach(section => {
+                const inputs = section.querySelectorAll('input, textarea');
+                applicants.push({
+                    name: inputs[0].value || '<Applicant>',
+                    nationality: inputs[1].value || '<Nationality>',
+                    address: inputs[2].value || '<Applicant Address>'
+                });
+            });
+            
+            // Get other form data
+            const applicationNumber = document.getElementById('application-number').value || '<Application Number>';
+            const filingDate = formatDate(document.getElementById('filing-date').value) || '<Filing Date>';
+            const title = document.getElementById('title').value || '<Title>';
+            const agentAddress = document.getElementById('agent-address').value || '<Agent Address>';
+            const agentMobile = document.getElementById('agent-mobile').value || '<Agent Mobile>';
+            const agentEmail = document.getElementById('agent-email').value || '<Agent Email>';
+            const agentName = document.getElementById('agent-name').value || '<Agent Name>';
+            const agentNumber = document.getElementById('agent-number').value || '<Agent Number>';
+            
+            // Format present date
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            return {
+                applicants,
+                applicationNumber,
+                filingDate,
+                title,
+                agentAddress,
+                agentMobile,
+                agentEmail,
+                agentName,
+                agentNumber,
+                presentDate: formattedDate
+            };
+        }
+
+        // Generate Form 2
+        function generateForm2(data) {
+            // Generate applicant list HTML
+            let applicantsHTML = '';
+            data.applicants.forEach((applicant, index) => {
+                applicantsHTML += `
+                    <div style="margin-bottom: 10pt;">
+                        <div><strong>Applicant ${index + 1}:</strong> ${applicant.name}</div>
+                        <div><strong>Nationality:</strong> ${applicant.nationality}</div>
+                        <div><strong>Address:</strong> ${applicant.address}</div>
+                    </div>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Form 2 - Complete Specification</title>
+                    <style>
+                        body {
+                            font-family: 'Times New Roman', serif;
+                            margin: 1cm;
+                            font-size: 12pt;
+                            line-height: 1.5;
+                        }
+                        .form-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 16pt;
+                            margin-bottom: 20pt;
+                        }
+                        .section {
+                            margin-bottom: 15pt;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="form-title">FORM 2</div>
+                    <div style="text-align: center;">THE PATENTS ACT, 1970</div>
+                    <div style="text-align: center;">(39 OF 1970)</div>
+                    <div style="text-align: center;">&</div>
+                    <div style="text-align: center;">THE PATENT RULES, 2003</div>
+                    
+                    <div style="text-align: center; font-weight: bold; margin: 20pt 0;">COMPLETE SPECIFICATION</div>
+                    <div style="text-align: center;">(See Section 10 & Rule 13)</div>
+                    
+                    <div class="section">
+                        <div style="font-weight: bold; text-align: center;">TITLE OF THE INVENTION:</div>
+                        <div style="font-weight: bold; margin-top: 10pt; text-align: center;">${data.title}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div style="font-weight: bold;">APPLICANT(S):</div>
+                        ${applicantsHTML}
+                    </div>
+                    
+                    <div class="section" style="margin-top: 30pt;">
+                        <div>The following specification particularly describes the invention and the manner in which it is to be performed.</div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Generate Form 3
+        function generateForm3(data) {
+            // Generate table rows for applicants
+            let applicantRows = '';
+            data.applicants.forEach(applicant => {
+                applicantRows += `
+                    <tr>
+                        <td>${applicant.name}</td>
+                        <td>${applicant.address}</td>
+                        <td>${applicant.nationality}</td>
+                    </tr>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Form 3 - Statement and Undertaking</title>
+                    <style>
+                        body {
+                            font-family: 'Times New Roman', serif;
+                            margin: 1cm;
+                            font-size: 12pt;
+                            line-height: 1.5;
+                        }
+                        .form-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 16pt;
+                            margin-bottom: 20pt;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 15pt 0;
+                        }
+                        table, th, td {
+                            border: 1px solid black;
+                        }
+                        th, td {
+                            padding: 8pt;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="form-title">FORM 3</div>
+                    <div style="text-align: center;">THE PATENT ACT, 1970</div>
+                    <div style="text-align: center;">(39 of 1970)</div>
+                    <div style="text-align: center;">&</div>
+                    <div style="text-align: center;">THE PATENTS RULES, 2003</div>
+                    
+                    <div style="text-align: center; font-weight: bold; margin: 20pt 0;">STATEMENT AND UNDERTAKING UNDER SECTION 8</div>
+                    <div style="text-align: center;">(See section 8 and rules 12)</div>
+                    
+                    <div style="margin-top: 20pt;">
+                        <div>(i) I/We, the following applicant(s), hereby declare:</div>
+                        
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Nationality</th>
+                            </tr>
+                            ${applicantRows}
+                        </table>
+                        
+                        <div style="margin-top: 15pt;">
+                            (ii) that We who have made this application No. <strong>${data.applicationNumber}</strong> dated <strong>${data.filingDate}</strong> alone/jointly made for the same/substantially same invention, application(s) for patent in the other countries, the particulars of which are given below:
+                        </div>
+                        
+                        <table>
+                            <tr>
+                                <th>Country</th>
+                                <th>Application Number</th>
+                                <th>Date of application</th>
+                                <th>Status of application</th>
+                                <th>Publication Number</th>
+                                <th>Date of publication</th>
+                                <th>Patent number</th>
+                                <th>Date of Grant</th>
+                            </tr>
+                            <tr>
+                                <td>NA</td>
+                                <td>NA</td>
+                                <td>NA</td>
+                                <td>NA</td>
+                                <td>NA</td>
+                                <td>NA</td>
+                                <td>NA</td>
+                                <td>NA</td>
+                            </tr>
+                        </table>
+                        
+                        <div style="margin-top: 15pt;">
+                            (iii) that the rights in the application(s) has/have been assigned to <strong>NONE</strong> that we undertake that up to the date of grant of the patent by the Controller, we would keep him informed in writing the details regarding corresponding applications for patents file outside India within Six months from the date of filing of such application.
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30pt;">
+                        <div>Dated this ${data.presentDate}</div>
+                        
+                        <div style="text-align: right; margin-top: 20pt;">
+                            <div>(<em>digitally signed by</em>)</div>
+                            <div>${data.agentName}</div>
+                            <div>IN/PA-${data.agentNumber}</div>
+                        </div>
+                        <div style="text-align: right;">Agent for the Applicant</div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Generate Form 5
+        function generateForm5(data) {
+            // Generate table rows for applicants
+            let applicantRows = '';
+            data.applicants.forEach(applicant => {
+                applicantRows += `
+                    <tr>
+                        <td>${applicant.name}</td>
+                        <td>${applicant.address}</td>
+                        <td>${applicant.nationality}</td>
+                    </tr>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Form 5 - Declaration as to Inventorship</title>
+                    <style>
+                        body {
+                            font-family: 'Times New Roman', serif;
+                            margin: 1cm;
+                            font-size: 12pt;
+                            line-height: 1.5;
+                        }
+                        .form-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 16pt;
+                            margin-bottom: 20pt;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 15pt 0;
+                        }
+                        table, th, td {
+                            border: 1px solid black;
+                        }
+                        th, td {
+                            padding: 8pt;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="form-title">FORM 5</div>
+                    <div style="text-align: center;">THE PATENTS ACT, 1970</div>
+                    <div style="text-align: center;">(39 OF 1970)</div>
+                    <div style="text-align: center;">&</div>
+                    <div style="text-align: center;">THE PATENT RULES, 2003</div>
+                    
+                    <div style="text-align: center; font-weight: bold; margin: 20pt 0;">DECLARATION AS TO INVENTORSHIP</div>
+                    <div style="text-align: center;">[<em>See</em> Section 10(6) and Rule 13 (6)]</div>
+                    
+                    <table style="margin-top: 20pt;">
+                        <tr>
+                            <td colspan="3">1. APPLICANT(S)</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Nationality</th>
+                        </tr>
+                        ${applicantRows}
+                        <tr>
+                            <td colspan="3">
+                                hereby declare that the true and first inventor(s) of the invention disclosed in the <strong>Complete</strong> specification filed in pursuance of our application numbered <strong>${data.applicationNumber}</strong> dated <strong>${data.filingDate}</strong> are:
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table>
+                        <tr>
+                            <td colspan="3">2. INVENTOR(S)</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Nationality</th>
+                        </tr>
+                        <tr>
+                            <td>[Inventor Name]</td>
+                            <td>[Inventor Address]</td>
+                            <td>[Nationality]</td>
+                        </tr>
+                        <tr>
+                            <td>[Inventor Name]</td>
+                            <td>[Inventor Address]</td>
+                            <td>[Nationality]</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding: 15pt;">
+                                <s>3. Declaration to be given when the application in India is filed by the applicant(s) in the convention country: -</s>
+                                <br><br>
+                                <s>We the applicants in the convention country hereby declare that our right to apply for a patent in India is by way of assignment from the true and first inventor(s).</s>
+                                <br><br>
+                                <s>4. Statement (to be signed by the additional inventor(s) not mentioned in the application form)</s>
+                                <br><br>
+                                <s>I/We assent to the invention referred to in the above declaration, being included in the complete specification filed in pursuance of the stated application.</s>
+                                <br><br>
+                                Dated this ${data.presentDate}
+                                <br><br>
+                                (<em>digitally signed by</em>)
+                                <br><br>
+                                ${data.agentName}
+                                <br>
+                                IN/PA-${data.agentNumber}
+                                <br>
+                                <div style="text-align: right;">Agent for the Applicant</div>
+                                <br><br>
+                                To,
+                                <br><br>
+                                The Controller of Patent
+                                <br>
+                                The Patent Office,
+                                <br>
+                                At Mumbai/Delhi/Chennai/Kolkata
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html>
+            `;
+        }
+
+        // Generate Form 9
+        function generateForm9(data) {
+            // Generate applicant list HTML
+            let applicantsHTML = '';
+            data.applicants.forEach((applicant, index) => {
+                applicantsHTML += `
+                    <div style="margin-bottom: 10pt;">
+                        <div><strong>Applicant ${index + 1}:</strong> ${applicant.name}</div>
+                        <div><strong>Nationality:</strong> ${applicant.nationality}</div>
+                        <div><strong>Address:</strong> ${applicant.address}</div>
+                    </div>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Form 9 - Request for Publication</title>
+                    <style>
+                        body {
+                            font-family: 'Times New Roman', serif;
+                            margin: 1cm;
+                            font-size: 12pt;
+                            line-height: 1.5;
+                        }
+                        .form-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 16pt;
+                            margin-bottom: 20pt;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="form-title">FORM 9</div>
+                    <div style="text-align: center;">THE PATENT ACT, 1970</div>
+                    <div style="text-align: center;">(39 of 1970)</div>
+                    <div style="text-align: center;">&</div>
+                    <div style="text-align: center;">THE PATENTS RULES, 2003</div>
+                    
+                    <div style="text-align: center; font-weight: bold; margin: 20pt 0;">REQUEST FOR PUBLICATION</div>
+                    <div style="text-align: center;">[See section 11A (2) rule 24A]</div>
+                    
+                    <div style="margin-top: 30pt;">
+                        <div>We, the following applicant(s):</div>
+                        ${applicantsHTML}
+                        <div style="margin-top: 15pt;">hereby request for early publication of our patent application no. <strong>${data.applicationNumber}</strong> dated ${data.filingDate} under section 11A (2) of the act.</div>
+                    </div>
+                    
+                    <div style="margin-top: 30pt;">
+                        <div>Dated this ${data.presentDate}</div>
+                        
+                        <div style="text-align: right; margin-top: 20pt;">
+                            <div>(<em>digitally signed by</em>)</div>
+                            <div>${data.agentName}</div>
+                            <div>IN/PA-${data.agentNumber}</div>
+                        </div>
+                        <div style="text-align: right;">Agent for the Applicant</div>
+                    </div>
+                    
+                    <div style="margin-top: 40pt;">
+                        <div>To,</div>
+                        <div>The Controller of Patents,</div>
+                        <div>The Patent Office</div>
+                        <div>At Mumbai/Delhi/Chennai/Kolkata</div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Generate Form 18
+        function generateForm18(data) {
+            // Generate applicant details HTML
+            let applicantDetails = '';
+            data.applicants.forEach((applicant, index) => {
+                applicantDetails += `
+                    <div class="applicant-entry" style="margin-bottom: 15pt;">
+                        <div>${index + 1}. (a) <strong>Name:</strong> ${applicant.name}</div>
+                        <div>&nbsp;&nbsp;&nbsp;(b) <strong>Nationality:</strong> ${applicant.nationality}</div>
+                        <div>&nbsp;&nbsp;&nbsp;(c) <strong>Address:</strong> ${applicant.address}</div>
+                    </div>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Form 18 - Request for Examination</title>
+                    <style>
+                        body {
+                            font-family: 'Times New Roman', serif;
+                            margin: 1cm;
+                            font-size: 12pt;
+                            line-height: 1.5;
+                        }
+                        .form-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 14pt;
+                            margin-bottom: 5px;
+                        }
+                        .double-line {
+                            border-top: 1px solid #000;
+                            border-bottom: 3px double #000;
+                            margin: 15px 0;
+                            padding: 8px 0;
+                            text-align: center;
+                        }
+                        .section-title {
+                            font-weight: bold;
+                            margin: 20px 0 10px;
+                            font-size: 12pt;
+                        }
+                        .center-header {
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="form-title">FORM 18</div>
+                    <div class="center-header">THE PATENT ACT, 1970</div>
+                    <div class="center-header">(39 of 1970)</div>
+                    <div class="center-header">&</div>
+                    <div class="center-header">THE PATENTS RULES, 2003</div>
+                    
+                    <div class="double-line">
+                        <div><strong>REQUEST/EXPRESS REQUEST FOR EXAMINATION OF APPLICATION FOR PATENT</strong></div>
+                        <div>[See section 11B and rules 20(4) (ii),24B (1) (i)]</div>
+                    </div>
+                    
+                    <div class="section-title">1. APPLICANT(S)/OTHER INTERESTED PERSON(S):</div>
+                    ${applicantDetails}
+                    
+                    <div class="section-title">2. STATEMENT IN CASE OF REQUEST FOR EXAMINATION MADE BY THE APPLICANT(S)</div>
+                    <div>We, the applicants listed above, hereby request that our application for patent invention number <strong>${data.applicationNumber}</strong> filed on <strong>${data.filingDate}</strong> for the titled <strong>${data.title}</strong> shall be examined under section 12 and 13 of the Act.</div>
+                    
+                    <div class="section-title">4. ADDRESS FOR SERVICE</div>
+                    <div>${data.agentAddress}</div>
+                    <div>Mobile No. ${data.agentMobile}</div>
+                    <div>Email ID: ${data.agentEmail}</div>
+                    
+                    <div style="margin-top: 30pt;">
+                        <div>Dated this ${data.presentDate}</div>
+                        
+                        <div style="text-align: right; margin-top: 20pt;">
+                            <div>(<em>digitally signed by</em>)</div>
+                            <div>${data.agentName}</div>
+                            <div>IN/PA-${data.agentNumber}</div>
+                        </div>
+                        <div style="text-align: right;">Agent for the Applicant</div>
+                    </div>
+                    
+                    <div style="margin-top: 40pt;">
+                        <div>To,</div>
+                        <div>The Controller of Patents,</div>
+                        <div>The Patent Office</div>
+                        <div>At Mumbai/Delhi/Chennai/Kolkata</div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Generate Form 18A
+        function generateForm18A(data) {
+            // Generate applicant details HTML
+            let applicantDetails = '';
+            data.applicants.forEach((applicant, index) => {
+                applicantDetails += `
+                    <tr>
+                        <td>${applicant.name}</td>
+                        <td>${applicant.nationality}</td>
+                        <td>${applicant.address}</td>
+                    </tr>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Form 18A - Request for Expedited Examination</title>
+                    <style>
+                        body {
+                            font-family: 'Times New Roman', serif;
+                            margin: 1cm;
+                            font-size: 12pt;
+                            line-height: 1.5;
+                        }
+                        .form-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 14pt;
+                            margin-bottom: 5px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 15px 0;
+                        }
+                        table, th, td {
+                            border: 1px solid #000;
+                        }
+                        th, td {
+                            padding: 8px;
+                            text-align: center;
+                        }
+                        .section-title {
+                            font-weight: bold;
+                            margin: 20px 0 10px;
+                        }
+                        .center-header {
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="form-title">FORM 18 A</div>
+                    <div class="center-header">THE PATENT ACT, 1970</div>
+                    <div class="center-header">(39 of 1970)</div>
+                    <div class="center-header">&</div>
+                    <div class="center-header">THE PATENTS RULES, 2003</div>
+                    <div class="center-header"><strong>REQUEST FOR EXPEDITED EXAMINATION OF APPLICATION FOR PATENT</strong></div>
+                    <div class="center-header"><strong>[See section 11B and rule 24C]</strong></div>
+                    
+                    <table>
+                        <tr>
+                            <td colspan="3"><strong>1. APPLICANT(S)</strong></td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Nationality</th>
+                            <th>Address</th>
+                        </tr>
+                        ${applicantDetails}
+                    </table>
+                    
+                    <div class="section-title">
+                        2. We, the applicants listed above, hereby request that our application for patent no <strong>${data.applicationNumber}</strong> filed on <strong>${data.filingDate}</strong> for the invention titled <strong>${data.title}</strong> shall be examined under section 12 and 13 of the Act
+                    </div>
+                    
+                    <div class="section-title">
+                        3. The applicant(s) to indicate (by ticking the appropriate box) any of the grounds applicable for request for expedited examination:
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <div>☐ that India has been indicated as the competent International Searching Authority or elected as an International Preliminary Examining Authority in the corresponding international application.</div>
+                        <div>☐ that the applicant is a startup</div>
+                        <div>☑ <strong>that the applicant is a small entity</strong></div>
+                        <div>☐ that the applicant is a natural person or in the case of joint applicants, all the applicants are natural persons, then applicant or at least one of the applicants is female</div>
+                        <div>☐ that the applicant is a department of the Government</div>
+                        <div>☐ that the applicant is an institute established by a Central, Provincial or State Act, which is owned or controlled by the Government</div>
+                        <div>☐ that the applicant is a Government company as defined in clause (45) of section 2 of the Companies Act, 2013 (18 of 2013)</div>
+                        <div>☐ that the applicant is an institution wholly or substantially financed by the Government</div>
+                        <div>☐ that the application pertains to a sector which has been notified by the Central Government, on the basis of a request from the head of department of the Central Government</div>
+                        <div>☐ that the applicant is eligible under an arrangement for processing a patent application pursuant to an agreement between Indian Patent Office and a foreign Patent Office</div>
+                    </div>
+                    
+                    <div class="section-title">
+                        4. Documents to be mandatorily submitted as evidence of eligibility for availing expedited examination on the grounds:
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <div>c. that the applicant is a small entity:</div>
+                        <div style="margin-left: 20px;">
+                            A. For an Indian applicant: Evidence of registration under the Micro, Small and Medium Enterprises Act, 2006 (27 of 2006).
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">ADDRESS FOR SERVICE IN INDIA</div>
+                    <div>${data.agentAddress}</div>
+                    <div>Mobile No. ${data.agentMobile}</div>
+                    <div>Email ID: ${data.agentEmail}</div>
+                    
+                    <div style="margin-top: 30px;">
+                        <div>Dated this ${data.presentDate}</div>
+                        
+                        <div style="text-align: right; margin-top: 20pt;">
+                            <div>(<em>digitally signed by</em>)</div>
+                            <div>${data.agentName}</div>
+                            <div>IN/PA-${data.agentNumber}</div>
+                        </div>
+                        <div style="text-align: right;">Agent for the Applicant</div>
+                    </div>
+                    
+                    <div style="margin-top: 40px;">
+                        <div>To,</div>
+                        <div>The Controller of Patents,</div>
+                        <div>The Patent Office at</div>
+                        <div>Mumbai/Delhi/Chennai/Kolkata</div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Generate and download a document
+        function downloadDocument(content, filename) {
+            const blob = new Blob([content], {type: 'application/msword'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            notification.textContent = `Downloaded ${filename}`;
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Generate all selected documents
+        function generateDocuments() {
+            const formData = getFormData();
+            
+            // Check which forms are selected
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                alert("Please select at least one form to generate.");
+                return;
+            }
+            
+            // Generate and download each selected form
+            checkboxes.forEach(checkbox => {
+                switch(checkbox.value) {
+                    case 'FORM2':
+                        downloadDocument(generateForm2(formData), 'Form_2_Complete_Specification.doc');
+                        break;
+                    case 'FORM3':
+                        downloadDocument(generateForm3(formData), 'Form_3_Section_8_Statement.doc');
+                        break;
+                    case 'FORM5':
+                        downloadDocument(generateForm5(formData), 'Form_5_Inventorship_Declaration.doc');
+                        break;
+                    case 'FORM9':
+                        downloadDocument(generateForm9(formData), 'Form_9_Request_for_Publication.doc');
+                        break;
+                    case 'FORM18':
+                        downloadDocument(generateForm18(formData), 'Form_18_Request_for_Examination.doc');
+                        break;
+                    case 'FORM18A':
+                        downloadDocument(generateForm18A(formData), 'Form_18A_Expedited_Examination.doc');
+                        break;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
